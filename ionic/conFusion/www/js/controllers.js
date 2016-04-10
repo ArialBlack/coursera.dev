@@ -1,10 +1,11 @@
 angular.module('conFusion.controllers', [])
 
-.controller('AppCtrl', function ($scope, $ionicModal, $ionicPopover, $ionicListDelegate, $timeout) {
+.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $localStorage) {
 
     $scope.loginData = {};
     $reservationData = {};
     $commentData = {};
+    $scope.loginData = $localStorage.getObject('userinfo','{}');
 
 
     $ionicModal.fromTemplateUrl('templates/login.html', {
@@ -24,8 +25,9 @@ angular.module('conFusion.controllers', [])
     };
 
 
-    $scope.doLogin = function () {
+       $scope.doLogin = function () {
         console.log('Doing login', $scope.loginData);
+        $localStorage.storeObject('userinfo',$scope.loginData);
 
 
         $timeout(function () {
