@@ -1,6 +1,6 @@
-angular.module('conFusion', ['ionic', 'conFusion.controllers', 'conFusion.services'])
+angular.module('conFusion', ['ionic', 'ngCordova', 'conFusion.controllers','conFusion.services'])
 
-.run(function($ionicPlatform, $rootScope, $ionicLoading) {
+.run(function($ionicPlatform, $rootScope, $ionicLoading, $cordovaSplashscreen, $timeout) {
   $ionicPlatform.ready(function() {
     if (window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -11,6 +11,10 @@ angular.module('conFusion', ['ionic', 'conFusion.controllers', 'conFusion.servic
       StatusBar.styleDefault();
     }
   });
+  
+  $timeout(function(){
+                $cordovaSplashscreen.hide();
+      },2000);
 
   $rootScope.$on('loading:show', function() {
       $ionicLoading.show({
