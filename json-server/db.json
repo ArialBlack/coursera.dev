@@ -68,6 +68,12 @@
           "comment": "",
           "author": "",
           "date": "2016-03-13T18:48:56.797Z"
+        },
+        {
+          "rating": "2",
+          "comment": "fgh",
+          "author": "fgh",
+          "date": "2016-04-03T20:27:30.519Z"
         }
       ]
     },
@@ -121,6 +127,18 @@
           "comment": "укеуке",
           "author": "укеуе",
           "date": "2016-04-03T19:55:30.851Z"
+        },
+        {
+          "rating": "3",
+          "comment": "et",
+          "author": "ert",
+          "date": "2016-04-03T20:36:36.761Z"
+        },
+        {
+          "rating": "2",
+          "author": "ghj",
+          "comment": "ghj",
+          "date": "2016-04-03T20:38:19.264Z"
         }
       ]
     },
@@ -171,7 +189,7 @@
       "image": "images/elaicheesecake.png",
       "category": "dessert",
       "label": "",
-      "price": "2.99",
+      "price": 2.99,
       "description": "A delectable, semi-sweet New York Style Cheese Cake, with Graham cracker crust and spiced with Indian cardamoms",
       "comments": [
         {
@@ -203,6 +221,12 @@
           "comment": "It's your birthday, we're gonna party!",
           "author": "25 Cent",
           "date": "2011-12-02T17:57:28.556094Z"
+        },
+        {
+          "rating": "1",
+          "author": "fgh",
+          "comment": "fgh",
+          "date": "2016-04-03T20:39:52.059Z"
         }
       ]
     }

@@ -1,1 +1,1 @@
-json-server --watch db.json
+json-server --watch --host 192.168.1.103 db.json
