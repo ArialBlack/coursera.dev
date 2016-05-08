@@ -49,3 +49,4 @@ node_modules/
 bower_components/
 lib/
 ionic/conFusion/www/lib/fontawesome/src/_plugins/icon_page_generator.rb
+mongodb/data/
