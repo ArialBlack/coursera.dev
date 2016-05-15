@@ -2,21 +2,22 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
-var Leaders = require('../models/leadership');
+var Leadership = require('../models/leadership');
+var Verify = require('./verify');
 
 var leaderRouter = express.Router();
 leaderRouter.use(bodyParser.json());
 
 leaderRouter.route('/')
-.get(function (req, res, next) {
-    Leaders.find({}, function (err, leader) {
-        if (err) throw err;
-        res.json(leader);
-    });
-})
+    .get(Verify.verifyOrdinaryUser, function (req, res, next) {
+        Leadership.find({}, function (err, leader) {
+            if (err) throw err;
+            res.json(leader);
+        });
+    })
 
-.post(function (req, res, next) {
-    Leaders.create(req.body, function (err, leader) {
+.post(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function (req, res, next) {
+    Leadership.create(req.body, function (err, leader) {
         if (err) throw err;
         console.log('Leader created!');
         var id = leader._id;
@@ -28,34 +29,37 @@ leaderRouter.route('/')
     });
 })
 
-.delete(function (req, res, next) {
-    Leaders.remove({}, function (err, resp) {
+.delete(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function (req, res, next) {
+    Leadership.remove({}, function (err, resp) {
         if (err) throw err;
         res.json(resp);
     });
 });
 
 leaderRouter.route('/:leaderId')
-.get(function (req, res, next) {
-    Leaders.findById(req.params.leaderId, function (err, leader) {
-        if (err) throw err;
-        res.json(leader);
-    });
-})
+    .get(Verify.verifyOrdinaryUser, function (req, res, next) {
+        Leadership.findById(req.params.leaderId, function (err, leader) {
+            if (err) throw err;
+            res.json(leader);
+        });
+    })
 
-.put(function (req, res, next) {
-    Leaders.findByIdAndUpdate(req.params.leaderId, {
+.put(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function (req, res, next) {
+    Leadership.findByIdAndUpdate(req.params.leaderId, {
         $set: req.body
     }, {
         new: true
-    }, function (err, leader) {
+    }, function (err, dish) {
         if (err) throw err;
         res.json(leader);
     });
 })
 
-.delete(function (req, res, next) {
-    Leaders.findByIdAndRemove(req.params.leaderId, function (err, resp) {        if (err) throw err;
+.delete(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function (req, res, next) {
+    Leadership.findByIdAndRemove(req.params.leaderId, function (err, resp) {
+        if (err) throw err;
         res.json(resp);
     });
 });
+
+module.exports = leaderRouter;

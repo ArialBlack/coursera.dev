@@ -2,23 +2,24 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
-var Promotions = require('../models/promotions');
+var Promotion = require('../models/promotions');
+var Verify = require('./verify');
 
 var promoRouter = express.Router();
-promohRouter.use(bodyParser.json());
+promoRouter.use(bodyParser.json());
 
 promoRouter.route('/')
-.get(function (req, res, next) {
-    Promotions.find({}, function (err, promo) {
-        if (err) throw err;
-        res.json(promo);
-    });
-})
+    .get(Verify.verifyOrdinaryUser, function (req, res, next) {
+        Promotion.find({}, function (err, promo) {
+            if (err) throw err;
+            res.json(promo);
+        });
+    })
 
-.post(function (req, res, next) {
-    Promotions.create(req.body, function (err, promo) {
+.post(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function (req, res, next) {
+    Promotion.create(req.body, function (err, promo) {
         if (err) throw err;
-        console.log('Promotion created!');
+        console.log('Promo created!');
         var id = promo._id;
 
         res.writeHead(200, {
@@ -28,23 +29,23 @@ promoRouter.route('/')
     });
 })
 
-.delete(function (req, res, next) {
-    Promotions.remove({}, function (err, resp) {
+.delete(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function (req, res, next) {
+    Promotion.remove({}, function (err, resp) {
         if (err) throw err;
         res.json(resp);
     });
 });
 
 promoRouter.route('/:promoId')
-.get(function (req, res, next) {
-    Promotions.findById(req.params.promoId, function (err, promo) {
-        if (err) throw err;
-        res.json(promo);
-    });
-})
+    .get(Verify.verifyOrdinaryUser, function (req, res, next) {
+        Promotion.findById(req.params.promoId, function (err, promo) {
+            if (err) throw err;
+            res.json(promo);
+        });
+    })
 
-.put(function (req, res, next) {
-    Promotions.findByIdAndUpdate(req.params.promoId, {
+.put(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function (req, res, next) {
+    Promotion.findByIdAndUpdate(req.params.promoId, {
         $set: req.body
     }, {
         new: true
@@ -54,8 +55,11 @@ promoRouter.route('/:promoId')
     });
 })
 
-.delete(function (req, res, next) {
-    Promotions.findByIdAndRemove(req.params.promoId, function (err, resp) {        if (err) throw err;
+.delete(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function (req, res, next) {
+    Promotion.findByIdAndRemove(req.params.promoId, function (err, resp) {
+        if (err) throw err;
         res.json(resp);
     });
 });
+
+module.exports = promoRouter;
